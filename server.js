@@ -121,6 +121,7 @@ app.get('/', async function (req, res) {
 	try{
 		getUser(req.header('id'),(user)=>{
 			//console.log(user);
+			let progress = req.body.progress;
 			if(!user){
 				res.send(401,"no such user exists");
 				return;
@@ -130,7 +131,7 @@ app.get('/', async function (req, res) {
 					if(el)el.id = index;
 				})
 				res.end(JSON.stringify(t.filter((el)=> {
-					return el != null;
+					return el != null && progress=="ALL"?true:el.progress==progress;
 				})));	
 			};
 			if(user.isAdmin){
